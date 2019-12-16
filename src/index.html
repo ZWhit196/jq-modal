@@ -8,11 +8,46 @@
 
         <script src="./js/jquery-3.4.1.min.js"></script>
         <script src="./js/jq-modal.js"></script>
+
+        <script>
+            $(function() {
+                $('#mclick').on("click", function() {
+                    $(this).jmodal({
+                        height: "90%",
+                        width: "400px",
+                        class: "my-modal",
+                        closetext: 'Placeholder close text',
+                        header: "<h2>Header Text</h2>",
+                        body: function() {
+                            var $p = $('<p></p>');
+                            $p.text('This is sample text, click it for an alert!')
+                            .on("click", function() {
+                                alert("You clicked it!");
+                            });
+
+                            return $p;
+                        },
+                        footer: "<div><span>Footer</span></div>",
+                    });
+                });
+
+                $('body').on('modal-triggered', function() {
+                    console.log("MODAL TRIGGERED");
+                }).on('modal-opened', function() {
+                    console.log("OPENED MODAL");
+                }).on('modal-closed', function() {
+                    console.log("CLOSED MODAL");
+                });
+            });
+        </script>
+
     </head>
     <body>
         <h1>JQuery Modal boxes</h1>
 
-        <p>Create modal boxes and manage them nicely with this!</p>
+        <button id="mclick">Click for modal</button>
+
+        <p>Create modal boxes with a simple system!</p>
 
         <p>Need some text to lengthen the page.</p>
         <p>Need some text to lengthen the page.</p>

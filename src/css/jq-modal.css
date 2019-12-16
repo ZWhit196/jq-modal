@@ -1,0 +1,16 @@
+.jqmodal-open { overflow: hidden !important; }
+#jqmodal-overlay {
+    background: rgba(0, 0, 0, 0.5); bottom: 0; left: 0; position: absolute;
+    right: 0; top: 0; z-index: 10000;
+}
+#jqmodal {
+    background: #FFFFFF; padding: 10px; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+}
+#jqmodal .jqmodal-action { text-align: right; }
+#jqmodal .jqmodal-action > * { padding: 0 5px; }
+#jqmodal .jqmodal-header,
+#jqmodal .jqmodal-body,
+#jqmodal .jqmodal-footer { padding: 5px 0; }
