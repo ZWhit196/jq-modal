@@ -14,8 +14,8 @@ This will open an empty modal which will be able to close, and will use a defaul
 
 The Object passed to the function can contain any of the following options.  
 
-- `height`: A String measurement or function returning such to determine the height of the modal. _default: auto;_  
-- `width`: A String measurement or function returning such to determine the width of the modal. _default: 300px;_  
+- `height`: A String measurement or function returning such to determine the height of the modal. If a function, it is passed the modal view box (*NOT OVERLAY*) as the main argument, which can be assessed for inner element dimensions if desired. _default: auto;_  
+- `width`: A String measurement or function returning such to determine the width of the modal. If a function, it is passed the modal view box (*NOT OVERLAY*) as the main argument, which can be assessed for inner element dimensions if desired. _default: 300px;_  
 - `header`: A String, DOM element, jQuery object, or function returning any of the previous types to create a header for the modal. _default: undefined;_  
 - `body`: A String, DOM element, jQuery object, or function returning any of the previous types to create the content of the modal. _default: undefined;_  
 - `footer`: A String, DOM element, jQuery object, or function returning any of the previous types to create a footer for the modal. _default: undefined;_  

@@ -33,28 +33,28 @@ var jmodalDefaults = {
         open: function($modal, options) {
             // triggered
             $('body').trigger(jmodalDefaults.triggerevt);
-            // height/width
-            var height, width;
-            if (!options.height) height = jmodalDefaults.height;
-            else if (typeof options.height === "function") height = options.height();
-            else height = options.height;
-            if (!options.width) width = jmodalDefaults.width;
-            else if (typeof options.width === "function") width = options.width();
-            else width = options.width;
             // body
             $body = $("<div></div>");
             var attrs = {id: jmodalDefaults.parentid};
-            var style = {height: height, width: width};
-            $body.attr(attrs).css(style);
+            $body.attr(attrs);
             if (options.class) $body.addClass(options.class);
             $modal.append($body);
             // header/content/footer
             fn.header($body, options.header, options.closetext);
             fn.body($body, options.body);
             fn.footer($body, options.footer);
+            // height/width
+            var height, width;
+            if (!options.height) height = jmodalDefaults.height;
+            else if (typeof options.height === "function") height = options.height($body);
+            else height = options.height;
+            if (!options.width) width = jmodalDefaults.width;
+            else if (typeof options.width === "function") width = options.width($body);
+            else width = options.width;
+            var style = {height: height, width: width};
+            $body.css(style);
             // show and assign close
-            $modal.show();
-            $modal.off('click').on("click", function(evt) {
+            $modal.show().one("click", function(evt) {
                 // close if not child of overlay
                 if ($(evt.target).attr('id') === jmodalDefaults.overlayid) {
                     fn.close($modal);  // close

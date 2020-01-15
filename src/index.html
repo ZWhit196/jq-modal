@@ -13,7 +13,13 @@
             $(function() {
                 $('#mclick').on("click", function() {
                     $(this).jmodal({
-                        height: "90%",
+                        height: function($modal) {
+                            console.log($modal);
+
+                            // return null;  // Auto height
+                            // return 200;  // pixel height
+                            return "90%";  // Any misc css string
+                        },
                         width: "400px",
                         class: "my-modal",
                         closetext: 'Placeholder close text',
