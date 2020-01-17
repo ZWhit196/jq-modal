@@ -54,12 +54,16 @@ var jmodalDefaults = {
             var style = {height: height, width: width};
             $body.css(style);
             // show and assign close
-            $modal.show().one("click", function(evt) {
+            var closer = function(evt) {
                 // close if not child of overlay
                 if ($(evt.target).attr('id') === jmodalDefaults.overlayid) {
                     fn.close($modal);  // close
+                } else {
+                    // if not out of body, reassign 1 time func
+                    $(this).one('click', closer);
                 }
-            });
+            };
+            $modal.show().one("click", closer);
             // no scroll class
             $('body').addClass(jmodalDefaults.modalopencls);
             // event
