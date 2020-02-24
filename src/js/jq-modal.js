@@ -122,12 +122,15 @@ var jmodalDefaults = {
     };
 
     $.fn.jmodal = function(options) {
+        var $modal = $('body').find('#'+jmodalDefaults.overlayid);
+
         if (typeof options === "object") {
             // find or create
-            var $modal = $('body').find('#'+jmodalDefaults.overlayid);
             if ($modal.length === 0) $modal = fn.create(options);
             // create internal
             fn.open($modal, options);
+        } else if (options === "close") {
+            fn.close($modal);
         }
         return this;
     };
