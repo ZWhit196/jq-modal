@@ -119,6 +119,19 @@ var jmodalDefaults = {
             // Add content
             $footer.append(footer);
         },
+        hide: function($modal) {
+            // triggered
+            $('body').trigger(jmodalDefaults.triggerevt);
+            // hide
+            console.log($modal);
+            $modal.hide();
+        },
+        show: function($modal) {
+            // triggered
+            $('body').trigger(jmodalDefaults.triggerevt);
+            // show
+            $modal.show();
+        },
     };
 
     $.fn.jmodal = function(options) {
@@ -131,6 +144,10 @@ var jmodalDefaults = {
             fn.open($modal, options);
         } else if (options === "close") {
             fn.close($modal);
+        } else if (options === 'hide') {
+            fn.hide($modal);
+        } else if (options === 'show') {
+            fn.show($modal);
         }
         return this;
     };
