@@ -13,8 +13,11 @@
             $(function() {
                 $('#mclick').on("click", function() {
                     $(this).jmodal({
-                        headerTitle: 'Test Modal',
-                        footer: true,
+                        header: function(title) {
+                            return $("<h1>" + title + "</h1>");
+                        },
+                        headerTitle: "Sample Header",
+                        footer: function() { return "<p>Modal by jmodal</p>"; },
                     });
                 });
 

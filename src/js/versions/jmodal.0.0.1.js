@@ -36,64 +36,84 @@ if (!$.fn.jmodal) {
                 }
                 return $cover;
             },
-            _createHead: function() {},
-            _createBody: function() {},
-            _createFoot: function() {},
+            _getEventTarget: function() {
+                // Get the target for events
+
+            },
+            _createHead: function() {
+                // Create the head of the modal
+                var self = this;
+                var $h = $($.jmodal._html.modalHead);
+                this.$modal.append($h);
+
+                if ($.isFunction(this._options.header)) $h.append(this._options.header(this._options.headerTitle));
+                else if (typeof this._options.header !== "boolean") $h.append(this._options.header);
+                else {
+                    var $t = $($.jmodal._html.modalTitle);
+                    $t.text(this._options.headerTitle);
+                    $h.append($t);
+                }
+
+                // close button
+                if (this._options.closeButton) {
+                    var $close;
+                    if ($.isFunction(this._options.closeButton)) $close = $(this._options.closeButton())
+                    else if (this._options.closeButton === true) $close = $($.jmodal._html.modalClose);
+                    else $close = $(this._options.closeButton);
+
+                    $close.on('click', function() { self.close(); });
+
+                    $h.append($close);
+                }
+            },
+            _createBody: function() {
+                // Create body of the modal
+                var $body = $($.jmodal._html.modalBody);
+                this.$modal.append($body);
+                $body.append(this._options.content);
+            },
+            _createFoot: function() {
+                // Create the footer of the modal
+                var $f = $($.jmodal._html.modalFoot);
+                this.$modal.append($f);
+                if (typeof this._options.footer !== "boolean") $f.append(this._options.footer);
+            },
             _setupModal: function() {
                 // Setup this modal - called on construction only.
-                var self = this;
                 this.$modal = $($.jmodal._html.modalContainer);
                 this.$modal.css({
                     width: this._options.width, 
                     height: this._options.height,
                 });
+                if (this._options.customClass) this.$modal.addClass(this._options.customClass);
+                if (this._options.data) this.$modal.data(this._options.data);
 
                 // HEADER
-                if (this._options.header) {
-                    var $h = $($.jmodal._html.modalHead);
-                    this.$modal.append($h);
-                    // If its a Element/jQuery/String/function
-                    if (typeof this._options.header !== "boolean") $h.append(this._options.header);
-                    else {
-                        var $t = $($.jmodal._html.modalTitle);
-                        $t.text(this._options.headerTitle);
-                        $h.append($t);
-                    }
-                    // close button
-                    if (this._options.closeButton) {
-                        var $close;
-                        if ($.isFunction(this._options.closeButton)) $close = $(this._options.closeButton())
-                        else if (this._options.closeButton === true) $close = $($.jmodal._html.modalClose);
-                        else $close = $(this._options.closeButton);
-
-                        $close.on('click', function() { self.close(); });
-
-                        $h.append($close);
-                    }
-                }
-
+                if (this._options.header) this._createHead();
                 // BODY
-                var $body = $($.jmodal._html.modalBody);
-                this.$modal.append($body);
-
-                // TODO : content
-
+                this._createBody();
                 // FOOTER
-                if (this._options.footer) {
-                    var $f = $($.jmodal._html.modalFoot);
-                    this.$modal.append($f);
-                    if (typeof this._options.footer !== "boolean") $f.append(this._options.footer);
-                }
+                if (this._options.footer) this._createFoot();
 
                 this.$cover.append(this.$modal);
             },
             // interaction
-            destroy: function() {},
-            open: function() {
-
+            destroy: function() {
+                // Destroy the modal
             },
-            close: function() {},
-            toggle: function() {},
+            open: function() {
+                // Open the modal
+                this.$cover.show();
+                this.$modal.show();
+            },
+            close: function() {
+                // Close the modal
+                this.$cover.hide();
+                this.$modal.hide();
+            },
+            toggle: function() {
+                // Toggle the show/hide of the modal
+            },
         });
 
         // jQuery insert
@@ -153,7 +173,6 @@ if (!$.fn.jmodal) {
                 width: 'auto',
                 customClass: '',
                 data: null,
-                debug: false,
                 altParent: null,
                 altTarget: null,
                 preserveModal: true,

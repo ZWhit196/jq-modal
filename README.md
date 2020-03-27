@@ -62,10 +62,6 @@ Defaults to `''`.
 An object of key/value pairings to assign as data attributes to the modal container. This can be useful for storing any little bits of information you might need to reference to. Functions should return the same.  
 Defaults to `null`.  
 
-`debug` : Boolean  
-Toggles whether any console output is emitted by jmodal for events and actions.  
-Defaults to `false`.  
-
 `altParent` : String, HTML, jQuery, function  
 Provide an alternative parent for the modal content to be placed in. By default, jmodal places the modals as a direct child of the body, so that when the modal is opened, the majority of the document is usually inaccessible via clicks until the modal closes. In some cases, you may still want to access areas of a page, so providing an `altParent` will allow greater control over what can be interacted with. This also affects the target of the `lockScroll` option.  
 Defaults to `null`.
