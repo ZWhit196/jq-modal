@@ -147,8 +147,8 @@ A simple way to programatically toggle open or closed a modal that has already b
 No return.  
 
 `instance` : `$('.selector').jmodal('instance')`  
-Allows you to get the jmodal instance object associated to this modal.  
-Returns JModal instance.  
+Allows you to get the jmodal instance object associated to this modal. In most cases there would normally only be one modal on any element, but since it may be possible for multiple modals attached to one element, an Array of all instances is returned.  
+Returns Array of JModal instances.  
 
 `option` (getter) : `$('.selector').jmodal('option', 'optionName')`  
 Access the value of an option which was used to configure the jmodal instance.  

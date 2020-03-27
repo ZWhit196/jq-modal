@@ -9,21 +9,35 @@
 if (!$.fn.jmodal) {
     (function(global, $) {
     
-
-        var JModal = function(id) { this.__id = id; };
+        // JModal object
+        var JModal = function(id, $target, options) {
+            this.__id = id;
+            this._options = options;
+            this.$target = $target;
+            // Setup id for identification purposes
+            this.$target.data('jmodalid', id);
+        };
         Object.defineProperty(JModal, 'constructor', {value: JModal.prototype, enumerable: false, writable: true});
         $.extend(JModal.prototype, {
-
+            getOrCreateCover: function() {},
+            createHead: function() {},
+            createBody: function() {},
+            createFoot: function() {},
+            destroy: function() {},
+            open: function() {},
+            close: function() {},
+            toggle: function() {},
         });
 
+        // jQuery insert
         $.jmodal = {};
         $.fn.jmodal = function(option, name, value) {
-            // option as object for creation.
-            if (!option) option = $.extend({} , $.fn.jmodal.defaults);
+            if (!option) option = $.extend({} , $.fn.jmodal.defaults);  // Default empty to defaults
 
+            // Creation as object
             if (typeof option === 'object') {
-
-            } else {
+                return $.jmodal.create(this, option);
+            } else {  // Interaction as string option
                 switch (option) {
                     case 'open':
                         return this;
@@ -45,7 +59,8 @@ if (!$.fn.jmodal) {
         // Utilities
         $.jmodal = {
             // Instances
-            _instances: {},
+            _instances: [],
+            // vars
             _evt: {
                 open: 'modal-opened',
                 close: 'modal-closed',
@@ -80,14 +95,26 @@ if (!$.fn.jmodal) {
                 closeOnOutClick: true,
                 lockScroll: true,
             },
-            // ID method
+            // methods
+            create: function($target, options) {
+                // Create a new instance and assign to _instances
+                var M = new JModal($.jmodal.newID(), $target, options);
+                $.jmodal._instances.append(M);
+                return $target;
+            },
+            getInstance: function($target) {
+                var M = $.jmodal._instance.filter(function(v) {
+                    return v.__id == $target.data('jmodalid');
+                })[0];
+                return M;
+            },
+            // util methods
             newID: function() {
                 // Generate an id (basically just the time now)
                 var x = Date.now();
                 while ($.fn.jmodal.instances[x]) x = Date.now();
                 return x;
             },
-            // Checking methods
             isInDOM: function($e) {
                 // Check if element exists on page.
                 return $.contains(document.documentElement, $e.get(0));
