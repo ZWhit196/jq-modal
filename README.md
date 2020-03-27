@@ -30,18 +30,19 @@ Defaults to (value)
 The content for the modal to display in the main modal body. If nothing is passed, the body will be rendered empty. A HTML or jQuery object can be passed to insert as the body content, or a function can be given which should return content which can be appended to the modal body.  
 Defaults to `''`.  
 
-`header` : Boolean, HTML, jQuery, function  
+`header` : Boolean, String, HTML, jQuery, function  
 Determines whether to render a header on the modal. If `false`, no header is created. If a HTML or jQuery object is passed, this is set as the content of the header section. A function should return the content for the header, and is passed the text that would be assigned as the title. This allows the `headerTitle` option to be passed and still used within the function if desired.  
 Defaults to `true`.  
 
-`headerTitle` : String, HTML, jQuery, function  
-The main content for the modal title. Without a header, this will never be used, 
+`headerTitle` : String, function  
+The main content for the modal title. Without a header, this will never be used. A function should return a String for use in the title header.  
+Defaults to `''`.  
 
-`closeButton` : Boolean, HTML, jQuery, function
-Determines whether to render a close button in the header of the modal. If there is no header, this could be considered to be `false`, as there would never be a header for the button to be rendered in. A HTML or jQuery object would act as a replacement for the button, thus allowing custom buttons to be added in place of the default button.  
+`closeButton` : Boolean, String, HTML, jQuery, function
+Determines whether to render a close button in the header of the modal. If there is no header, this could be considered to be `false`, as there would never be a header for the button to be rendered in. A HTML or jQuery object would act as a replacement for the button, thus allowing custom buttons to be added in place of the default button. A function should return one of either an HTML element, jQuery object, or String.  
 Defaults to `true`.  
 
-`footer` : Boolean, HTML, jQuery, function  
+`footer` : Boolean, String, HTML, jQuery, function  
 Similar to the `header` option, but for a footer section.  
 Defaults to `false`.  
 
@@ -69,7 +70,7 @@ Defaults to `false`.
 Provide an alternative parent for the modal content to be placed in. By default, jmodal places the modals as a direct child of the body, so that when the modal is opened, the majority of the document is usually inaccessible via clicks until the modal closes. In some cases, you may still want to access areas of a page, so providing an `altParent` will allow greater control over what can be interacted with. This also affects the target of the `lockScroll` option.  
 Defaults to `null`.
 
-`altTarget` : String, HTML, jQuery, function  
+`eventTarget` : String, HTML, jQuery, function  
 Provides an alternative target element on which to emit modal events. Usually the element that is selected when the modal is created is used as this target, but this provides a means of using an alternative element to capture these events. Strings should be viable jQuery selector strings, HTML and jQuery objects can have the events registered on them, and a function should return any of the previous types here.  
 Defaults to `null`.
 
@@ -147,8 +148,8 @@ A simple way to programatically toggle open or closed a modal that has already b
 No return.  
 
 `instance` : `$('.selector').jmodal('instance')`  
-Allows you to get the jmodal instance object associated to this modal. In most cases there would normally only be one modal on any element, but since it may be possible for multiple modals attached to one element, an Array of all instances is returned.  
-Returns Array of JModal instances.  
+Allows you to get the jmodal instance object associated to this modal.  
+Returns JModal instance or `undefined`.  
 
 `option` (getter) : `$('.selector').jmodal('option', 'optionName')`  
 Access the value of an option which was used to configure the jmodal instance.  
@@ -157,6 +158,30 @@ Returns option value.
 `option` (setter) : `$('.selector').jmodal('option', 'optionName', value)`
 Allows for updating values of the jmodal instance.  
 No return.  
+
+`destroy` : `$('.selector').jmodal('destroy')`  
+Destroys the modal.  
+No return.  
+
+## Instance methods  
+
+When you have an instance to hand, usually via the `instance` method, the following methods are common use cases you may have.  
+The format is as follows:  
+
+`(method)` : `(sample usage)`  
+(Description)  
+
+`open` : `instance.destroy()`  
+Opens the modal.
+
+`close` : `instance.destroy()`  
+Closes the modal.  
+
+`toggle` : `instance.destroy()`  
+Toggles open or closed the modal.  
+
+`destroy` : `instance.destroy()`  
+Destroys the modal.  
 
 ## Events  
 
@@ -170,3 +195,16 @@ The format is as follows:
 `modal-closed` : Occurs when a modal is closed.  
 
 `modal-opened` : Occurs when a modal is opened.  
+
+## Note about styling  
+
+As it stands right now, this plugin comes with a very bare-bones style sheet, which leaves a lot of the stylistic side to the user of this plugin, and doesn't overwhelm with a massive hyper structure.  
+All jmodal generated content will have a class with its name following the format of `jmodal-` and a relevant body part name.  
+
+- `jmodal-cover`  
+- `jmodal-container`  
+- `jmodal-head`  
+- `jmodal-body`  
+- `jmodal-foot`  
+- `jmodal-close`  
+- `jmodal-title`  
