@@ -16,9 +16,11 @@ if (!$.fn.jmodal) {
 
         });
 
-
+        $.jmodal = {};
         $.fn.jmodal = function(option, name, value) {
             // option as object for creation.
+            if (!option) option = $.extend({} , $.fn.jmodal.defaults);
+
             if (typeof option === 'object') {
 
             } else {
@@ -40,32 +42,32 @@ if (!$.fn.jmodal) {
             }
         };
 
-        // Instances
-        $.fn.jmodal.instances = {};
-        // Defaults
-        $.fn.jmodal.defaults = {
-            content: '',
-            header: '',
-            headerTitle: '',
-            closeButton: true,
-            footer: false,
-            height: 'auto',
-            width: 'auto',
-            customClass: '',
-            data: null,
-            debug: false,
-            altParent: null,
-            altTarget: null,
-            preserveModal: true,
-            restoreContent: false,
-            onOpen: null,
-            onClose: null,
-            onDestroy: null,
-            closeOnOutClick: true,
-            lockScroll: true,
-        };
         // Utilities
-        $.fn.jmodal.util = {
+        $.jmodal = {
+            // Instances
+            _instances: {},
+            // Defaults
+            defaults: {
+                content: '',
+                header: '',
+                headerTitle: '',
+                closeButton: true,
+                footer: false,
+                height: 'auto',
+                width: 'auto',
+                customClass: '',
+                data: null,
+                debug: false,
+                altParent: null,
+                altTarget: null,
+                preserveModal: true,
+                restoreContent: false,
+                onOpen: null,
+                onClose: null,
+                onDestroy: null,
+                closeOnOutClick: true,
+                lockScroll: true,
+            },
             // ID method
             newID: function() {
                 // Generate an id (basically just the time now)
