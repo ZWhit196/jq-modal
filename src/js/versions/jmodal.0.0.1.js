@@ -17,17 +17,6 @@ if (!$.fn.jmodal) {
         });
 
 
-        var util = {
-            // ID method
-            newID: function() {
-
-            },
-            // Checking methods
-            isInDOM: function() {},
-            isElement: function() {},
-        };
-
-
         $.fn.jmodal = function(option, name, value) {
             // option as object for creation.
             if (typeof option === 'object') {
@@ -51,6 +40,9 @@ if (!$.fn.jmodal) {
             }
         };
 
+        // Instances
+        $.fn.jmodal.instances = {};
+        // Defaults
         $.fn.jmodal.defaults = {
             content: '',
             header: '',
@@ -71,6 +63,25 @@ if (!$.fn.jmodal) {
             onDestroy: null,
             closeOnOutClick: true,
             lockScroll: true,
+        };
+        // Utilities
+        $.fn.jmodal.util = {
+            // ID method
+            newID: function() {
+                // Generate an id (basically just the time now)
+                var x = Date.now();
+                while ($.fn.jmodal.instances[x]) x = Date.now();
+                return x;
+            },
+            // Checking methods
+            isInDOM: function($e) {
+                // Check if element exists on page.
+                return $.contains(document.documentElement, $e.get(0));
+            },
+            isElement: function(e) {
+                // Simple test for if var is element
+                return e instanceof Element || e instanceof HTMLDocument;
+            },
         };
     
     })(window, jQuery);
