@@ -97,10 +97,6 @@ Defaults to `null`.
 If set to `true`, the modal will be closed when the area outside of the modal container is clicked on.  
 Defaults to `true`.  
 
-`closeOnEsc` : Boolean  
-If set to `true`, the modal will close when the 'escape' key is pressed.  
-Defaults to `true`.  
-
 `lockScroll` : Boolean  
 If set to `true`, when the modal is opened, the body of the document (or `altParent` if given) will be forced to not scroll by enforcing a `overflow: hidden`, preventing a user from scrolling the page by normal means. Useful if a modal may have a long content that could scroll.  
 Defaults to `true`.

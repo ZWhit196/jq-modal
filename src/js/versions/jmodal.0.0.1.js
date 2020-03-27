@@ -50,6 +50,28 @@ if (!$.fn.jmodal) {
                 }
             }
         };
+
+        $.fn.jmodal.defaults = {
+            content: '',
+            header: '',
+            headerTitle: '',
+            closeButton: true,
+            footer: false,
+            height: 'auto',
+            width: 'auto',
+            customClass: '',
+            data: null,
+            debug: false,
+            altParent: null,
+            altTarget: null,
+            preserveModal: true,
+            restoreContent: false,
+            onOpen: null,
+            onClose: null,
+            onDestroy: null,
+            closeOnOutClick: true,
+            lockScroll: true,
+        };
     
     })(window, jQuery);
 }
