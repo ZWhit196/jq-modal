@@ -101,6 +101,28 @@ Defaults to `true`.
 If set to `true`, when the modal is opened, the body of the document (or `altParent` if given) will be forced to not scroll by enforcing a `overflow: hidden`, preventing a user from scrolling the page by normal means. Useful if a modal may have a long content that could scroll.  
 Defaults to `true`.
 
+## Changing option defaults  
+
+The default values for the above options can be changed fairly simply, just use one of the following formats:  
+
+```javascript
+// Basic assignment
+$.jmodal.defaults['optionName'] = value;
+$.jmodal.defaults.optionName = value;
+
+// Multiple values
+Object.assign($.jmodal.defaults, {
+    optionName: value,
+    optionNameTwo: valueTwo,
+});
+
+// jQuery equivalent of multiple values
+$.extend($.jmodal.defaults, {
+    optionName: value,
+    optionNameTwo: valueTwo,
+});
+```
+
 ## Methods
 
 There are a handful of methods to help out with using the modals.  
@@ -135,3 +157,16 @@ Returns option value.
 `option` (setter) : `$('.selector').jmodal('option', 'optionName', value)`
 Allows for updating values of the jmodal instance.  
 No return.  
+
+## Events  
+
+Some events are emitted by the modal on certain actions. The events will be emitted on the target element when initialised, or the `altTarget` given in the instance configuration (if any).  
+The format is as follows:  
+
+`(event)` : (Description)  
+
+---  
+
+`modal-closed` : Occurs when a modal is closed.  
+
+`modal-opened` : Occurs when a modal is opened.  

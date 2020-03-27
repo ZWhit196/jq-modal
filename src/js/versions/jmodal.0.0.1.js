@@ -46,6 +46,18 @@ if (!$.fn.jmodal) {
         $.jmodal = {
             // Instances
             _instances: {},
+            _evt: {
+                open: 'modal-opened',
+                close: 'modal-closed',
+            },
+            _html: {
+                modalCover: '<div class="jmodal-cover"></div>',
+                modalContainer: '<div class="jmodal-container"></div>',
+                modalHead: '<div class="jmodal-head"></div>',
+                modalBody: '<div class="jmodal-body"></div>',
+                modalFoot: '<div class="jmodal-foot"></div>',
+                modalClose: '<span class="jmodal-close"></span>',
+            },
             // Defaults
             defaults: {
                 content: '',
