@@ -125,8 +125,6 @@ if (!$.fn.jmodal) {
                 // Destroy func
                 if (Array.isArray(this._options.onDestroy)) $.each(this._options.onDestroy, function(i, fn) { fn(); });
                 else if ($.isFunction(this._options.onDestroy)) this._options.onDestroy();
-                // delete this
-                delete this;
             },
             open: function() {
                 // Open the modal
@@ -151,7 +149,7 @@ if (!$.fn.jmodal) {
                 if (Array.isArray(this._options.onOpen)) $.each(this._options.onOpen, function(i, fn) { fn(); });
                 else if ($.isFunction(this._options.onOpen)) this._options.onOpen();
 
-                this._getEventTarget().trigger('modal-opened');
+                this._getEventTarget().trigger($.jmodal._evt.open);
                 return this;
             },
             close: function() {
@@ -163,7 +161,7 @@ if (!$.fn.jmodal) {
                 if (Array.isArray(this._options.onClose)) $.each(this._options.onClose, function(i, fn) { fn(); });
                 else if ($.isFunction(this._options.onClose)) this._options.onClose();
 
-                this._getEventTarget().trigger('modal-closed');
+                this._getEventTarget().trigger($.jmodal._evt.close);
                 return this;
             },
             toggle: function() {
@@ -217,10 +215,7 @@ if (!$.fn.jmodal) {
             // Instances
             _instances: [],
             // vars
-            _evt: {
-                open: 'modal-opened',
-                close: 'modal-closed',
-            },
+            _evt: {open: 'modal-opened', close: 'modal-closed'},
             _html: {
                 modalCover: '<div class="jmodal-cover jmodal-close"></div>',
                 modalContainer: '<div class="jmodal-container jmodal-close"></div>',
@@ -295,6 +290,5 @@ if (!$.fn.jmodal) {
                 return (M instanceof JModal && $.jmodal._instances.indexOf(M) > -1 && $.jmodal._instances.length === 1);
             },
         };
-    
     })(window, jQuery);
 }

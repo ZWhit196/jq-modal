@@ -18,6 +18,10 @@
                         content: 'These modal box things sure are useful!',
                         footer: function() { return "<p>Modal by jmodal</p>"; },
                         restoreContent: function($content) { $('#restored').append($content) },
+                        data: {'yes': true},
+                        customClass: 'mytheme',
+                        width: '50%',
+                        height: '40%',
                     });
                 });
 
@@ -31,7 +35,7 @@
                     console.log(M);
                 });
 
-                $('#iclick').on('click', function() {
+                $('#dclick').on('click', function() {
                     var M = $('#mclick').jmodal('instance');
                     M.destroy();
                 });
@@ -40,7 +44,7 @@
 
     </head>
     <body>
-        <h1>JQuery Modal boxes</h1>
+        <h1>jQuery Modal boxes</h1>
 
         <button id="mclick">Click to create modal</button>
         <button id="oclick">Click to open the modal</button>
@@ -49,6 +53,8 @@
 
         <p>Create modal boxes with a simple system!</p>
 
+        <p>Below is the content from the modals that are destroyed.</p>
         <div id="restored"></div>
+        <p>(End of modal content restoration element)</p>
     </body>
 </html>

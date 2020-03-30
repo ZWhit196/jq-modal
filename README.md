@@ -167,6 +167,8 @@ The format is as follows:
 `(method)` : `(sample usage)`  
 (Description)  
 
+---  
+
 `open` : `instance.destroy()`  
 Opens the modal.
 
@@ -178,6 +180,9 @@ Toggles open or closed the modal.
 
 `destroy` : `instance.destroy()`  
 Destroys the modal.  
+
+`isOpen` : `instance.isOpen()`  
+Returns `true` if the modal is open, else `false`.  
 
 ## Events  
 
