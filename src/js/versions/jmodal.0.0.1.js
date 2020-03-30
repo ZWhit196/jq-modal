@@ -5,6 +5,8 @@
  * ```
  * $(".selector").jmodal();
  * ```
+ * 
+ * Remember that only one instance of jmodal can be assigned to any given element!
  */
 if (!$.fn.jmodal) {
     (function(global, $) {
