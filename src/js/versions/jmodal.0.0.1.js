@@ -30,10 +30,7 @@ if (!$.fn.jmodal) {
                 if (!(parent instanceof $)) parent = $(parent);
 
                 var $cover = parent.find('> .jmodal-cover');
-                if ($cover.length === 0) {
-                    $cover = $($.jmodal._html.modalCover);
-                    parent.append($cover);
-                }
+                if ($cover.length === 0) $cover = $.jmodal.newCover(parent);
                 return $cover;
             },
             _getEventTarget: function() {
@@ -60,7 +57,7 @@ if (!$.fn.jmodal) {
                 if (this._options.closeButton) {
                     var $close;
                     if ($.isFunction(this._options.closeButton)) $close = $(this._options.closeButton())
-                    else if (this._options.closeButton === true) $close = $($.jmodal._html.modalClose);
+                    else if (this._options.closeButton === true) $close = $($.jmodal._html.modalCloseButton);
                     else $close = $(this._options.closeButton);
 
                     $close.on('click', function() { self.close(); });
@@ -86,7 +83,6 @@ if (!$.fn.jmodal) {
                 this.$modal.css({
                     width: this._options.width, 
                     height: this._options.height,
-                    display: 'none',
                 });
                 if (this._options.customClass) this.$modal.addClass(this._options.customClass);
                 if (this._options.data) this.$modal.data(this._options.data);
@@ -104,36 +100,77 @@ if (!$.fn.jmodal) {
             destroy: function() {
                 // Destroy the modal
                 this.$target.removeData('jmodalid');  // Remove data attr
-                this.$modal.remove();  // remove modal element
+                this.$cover.parent().removeClass('jmodal-scroll-lock');  // Cleanup scroll class
+                
+                // Handle restore if active
+                if (this._options.restoreContent === true) {  // Save to body
+                    var $m = this.$modal.find('.jmodal-body').detach();
+                    $m.hide();
+                    $('body').append($m);
+                } else if ($.isFunction(this._options.restoreContent)) {  // Function call
+                    var $m = this.$modal.find('.jmodal-body').detach();
+                    this._options.restoreContent($m);
+                } else if (this._options.restoreContent) {  // Specific location
+                    var $m = this.$modal.find('.jmodal-body').detach();
+                    $m.hide();
+                    $(this._options.restoreContent).append($m);
+                } else {  // Delete
+                    this.$modal.remove();
+                }
                 // if only instance, remove cover element
                 if ($.jmodal.isOnlyInstance(this)) this.$cover.remove();
                 // remove instance from collection
                 $.jmodal._instances.splice($.jmodal._instances.indexOf(this), 1);
+                
+                // Destroy func
+                if (Array.isArray(this._options.onDestroy)) $.each(this._options.onDestroy, function(i, fn) { fn(); });
+                else if ($.isFunction(this._options.onDestroy)) this._options.onDestroy();
+                // delete this
+                delete this;
             },
             open: function() {
                 // Open the modal
+                var self = this;
                 this.$cover.removeClass('jmodal-close').addClass('jmodal-open');
                 this.$modal.removeClass('jmodal-close').addClass('jmodal-open');
+                if (this._options.lockScroll) this.$cover.parent().addClass('jmodal-scroll-lock');
+
                 // Events and functions
-                if (Array.isArray(this._settings.onOpen)) $.each(this._settings.onOpen, function(i, fn) { fn(); });
-                else if ($.isFunction(this._settings.onOpen)) this._settings.onOpen();
+                if (this._options.closeOnOutClick) {
+                    var detectClose = function(evt) {
+                        var $this = $(this);
+                        var $target = $(evt.target);
+                        
+                        if ($target.is($this)) self.close();
+                        else $this.one('click', detectClose);
+                    };
+
+                    this.$modal.parent().one('click', detectClose);
+                }
+
+                if (Array.isArray(this._options.onOpen)) $.each(this._options.onOpen, function(i, fn) { fn(); });
+                else if ($.isFunction(this._options.onOpen)) this._options.onOpen();
 
                 this._getEventTarget().trigger('modal-opened');
+                return this;
             },
             close: function() {
                 // Close the modal
                 this.$cover.removeClass('jmodal-open').addClass('jmodal-close');
                 this.$modal.removeClass('jmodal-open').addClass('jmodal-close');
+                this.$cover.parent().removeClass('jmodal-scroll-lock');
                 // Events and functions
-                if (Array.isArray(this._settings.onClose)) $.each(this._settings.onClose, function(i, fn) { fn(); });
-                else if ($.isFunction(this._settings.onClose)) this._settings.onClose();
+                if (Array.isArray(this._options.onClose)) $.each(this._options.onClose, function(i, fn) { fn(); });
+                else if ($.isFunction(this._options.onClose)) this._options.onClose();
 
                 this._getEventTarget().trigger('modal-closed');
+                return this;
             },
             toggle: function() {
                 // Toggle the show/hide of the modal
                 if (this.isOpen) this.close();
                 else this.open();
+                return this;
             },
             isOpen: function() {
                 // return true if modal is open
@@ -186,11 +223,11 @@ if (!$.fn.jmodal) {
             },
             _html: {
                 modalCover: '<div class="jmodal-cover jmodal-close"></div>',
-                modalContainer: '<div class="jmodal-container"></div>',
+                modalContainer: '<div class="jmodal-container jmodal-close"></div>',
                 modalHead: '<div class="jmodal-head"></div>',
                 modalBody: '<div class="jmodal-body"></div>',
                 modalFoot: '<div class="jmodal-foot"></div>',
-                modalClose: '<span class="jmodal-close">Close</span>',
+                modalCloseButton: '<span class="jmodal-close-button">Close</span>',
                 modalTitle: '<span class="jmodal-title"></span>',
             },
             // Defaults
@@ -206,7 +243,6 @@ if (!$.fn.jmodal) {
                 data: null,
                 altParent: null,
                 altTarget: null,
-                preserveModal: true,
                 restoreContent: false,
                 onOpen: null,
                 onClose: null,
@@ -231,6 +267,11 @@ if (!$.fn.jmodal) {
                 return M;
             },
             // util methods
+            newCover: function(parent) {
+                $cover = $($.jmodal._html.modalCover);
+                parent.append($cover);
+                return $cover;
+            },
             newID: function() {
                 // Generate an id (basically just the time now)
                 var x = Date.now();

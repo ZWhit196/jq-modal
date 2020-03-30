@@ -70,12 +70,8 @@ Defaults to `null`.
 Provides an alternative target element on which to emit modal events. Usually the element that is selected when the modal is created is used as this target, but this provides a means of using an alternative element to capture these events. Strings should be viable jQuery selector strings, HTML and jQuery objects can have the events registered on them, and a function should return any of the previous types here.  
 Defaults to `null`.
 
-`preserveModal` : Boolean  
-Determines whether or not the modal should be destroyed when closed. If `false`, the modal will be destroyed, similar to explicitly destroying the modal within an 'onClose' handler. This can be useful for one-time modals, however for most modals, this is not usually a desired behaviour, so this will default to `true`, so that the modal is simply hidden when closed.  
-Defaults to `true`.
-
-`restoreContent` : Boolean, HTML, jQuery, function  
-Depending on the content used when creating the modal, you may want to keep the content safe, maybe for inserting or using elsewhere when the modal is destroyed. If this is set as `true`, the modal body content will be detached and appended to the `body` of the document, and hidden. This may not always be the desired location, so a HTML or jQuery object can be passed to attach the content to instead, or if a function is provided, the content will be passed as a jQuery object, so you can attach or handle the content in whatever way you want. Remember that this option only operates when the modal is destroyed, and not when it is closed. If `false` or not given, the content is lost on destroy.  
+`restoreContent` : Boolean, String, HTML, jQuery, function  
+Depending on the content used when creating the modal, you may want to keep the content safe, maybe for inserting or using elsewhere when the modal is destroyed. If this is set as `true`, the modal body content will be detached and appended to the `body` of the document, and hidden. This may not always be the desired location, so a HTML or jQuery object or String jQuery selector can be passed to attach the content to instead, or if a function is provided, the content will be passed as a jQuery object, so you can attach or handle the content in whatever way you want. Remember that this option only operates when the modal is destroyed, and not when it is closed. If `false` or not given, the content is lost on destroy.  
 Defaults to `false`.  
 
 `onOpen` : function, Array  
@@ -85,6 +81,10 @@ Defaults to `null`.
 `onClose` : function, Array  
 Similar to the `onOpen` option, but the function(s) are called after a modal is closed.  
 Defaults to `null`.
+
+`onInit` : function, Array  
+Similar to `onOpen` and `onClose`, but for after a modal is initialised.  
+Defaults to `null`.  
 
 `onDestroy` : function, Array  
 Similar to `onOpen` and `onClose`, but for after a modal is destroyed.  
@@ -202,7 +202,7 @@ All jmodal generated content will have a class with its name following the forma
 - `jmodal-head` (Element style)  
 - `jmodal-body` (Element style)  
 - `jmodal-foot` (Element style)  
-- `jmodal-close` (Element style)  
+- `jmodal-close-button` (Element style)  
 - `jmodal-title` (Element style)  
 - `jmodal-open` (Display style)  
 - `jmodal-close` (Display style)  
