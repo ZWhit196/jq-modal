@@ -25,6 +25,11 @@
                     var M = $('#mclick').jmodal('instance');
                     M.open();
                 });
+
+                $('#iclick').on('click', function() {
+                    var M = $('#mclick').jmodal('instance');
+                    console.log(M);
+                });
             });
         </script>
 
@@ -34,6 +39,7 @@
 
         <button id="mclick">Click to create modal</button>
         <button id="oclick">Click to open the modal</button>
+        <button id="iclick">Click to print instance</button>
 
         <p>Create modal boxes with a simple system!</p>
 

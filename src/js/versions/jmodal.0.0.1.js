@@ -27,7 +27,7 @@ if (!$.fn.jmodal) {
                 // Return the cover element for holding the modal.
                 // The cover will 'cover' the entirety of its parent, hence the name.
                 var parent = this._options.altParent || $('body');
-                if (!parent instanceof $) parent = $(parent);
+                if (!(parent instanceof $)) parent = $(parent);
 
                 var $cover = parent.find('> .jmodal-cover');
                 if ($cover.length === 0) {
@@ -38,7 +38,9 @@ if (!$.fn.jmodal) {
             },
             _getEventTarget: function() {
                 // Get the target for events
-
+                var evtTarget = this._options.eventTarget || this.$target;
+                if (!(evtTarget instanceof $)) evtTarget = $(evtTarget);
+                return evtTarget;
             },
             _createHead: function() {
                 // Create the head of the modal
@@ -84,6 +86,7 @@ if (!$.fn.jmodal) {
                 this.$modal.css({
                     width: this._options.width, 
                     height: this._options.height,
+                    display: 'none',
                 });
                 if (this._options.customClass) this.$modal.addClass(this._options.customClass);
                 if (this._options.data) this.$modal.data(this._options.data);
@@ -100,19 +103,41 @@ if (!$.fn.jmodal) {
             // interaction
             destroy: function() {
                 // Destroy the modal
+                this.$target.removeData('jmodalid');  // Remove data attr
+                this.$modal.remove();  // remove modal element
+                // if only instance, remove cover element
+                if ($.jmodal.isOnlyInstance(this)) this.$cover.remove();
+                // remove instance from collection
+                $.jmodal._instances.splice($.jmodal._instances.indexOf(this), 1);
             },
             open: function() {
                 // Open the modal
-                this.$cover.show();
-                this.$modal.show();
+                this.$cover.removeClass('jmodal-close').addClass('jmodal-open');
+                this.$modal.removeClass('jmodal-close').addClass('jmodal-open');
+                // Events and functions
+                if (Array.isArray(this._settings.onOpen)) $.each(this._settings.onOpen, function(i, fn) { fn(); });
+                else if ($.isFunction(this._settings.onOpen)) this._settings.onOpen();
+
+                this._getEventTarget().trigger('modal-opened');
             },
             close: function() {
                 // Close the modal
-                this.$cover.hide();
-                this.$modal.hide();
+                this.$cover.removeClass('jmodal-open').addClass('jmodal-close');
+                this.$modal.removeClass('jmodal-open').addClass('jmodal-close');
+                // Events and functions
+                if (Array.isArray(this._settings.onClose)) $.each(this._settings.onClose, function(i, fn) { fn(); });
+                else if ($.isFunction(this._settings.onClose)) this._settings.onClose();
+
+                this._getEventTarget().trigger('modal-closed');
             },
             toggle: function() {
                 // Toggle the show/hide of the modal
+                if (this.isOpen) this.close();
+                else this.open();
+            },
+            isOpen: function() {
+                // return true if modal is open
+                return (this.$cover.hasClass('jmodal-open') && !this.$modal.is(':hidden'));
             },
         });
 
@@ -128,14 +153,20 @@ if (!$.fn.jmodal) {
             } else {  // Interaction as string option
                 switch (option) {
                     case 'open':
+                        $.jmodal.getInstance(this).open();
                         return this;
                     case 'close':
+                        $.jmodal.getInstance(this).close();
                         return this;
                     case 'toggle':
+                        $.jmodal.getInstance(this).toggle();
                         return this;
                     case 'instance':
                         return $.jmodal.getInstance(this);
                     case 'option':
+                        return $.jmodal.getInstance(this)._options[option];
+                    case 'destroy':
+                        $.jmodal.getInstance(this).destroy();
                         return this;
                     default:
                         console.warn("jmodal received an unexpected option value (" + option + "), ignoring.");
@@ -154,7 +185,7 @@ if (!$.fn.jmodal) {
                 close: 'modal-closed',
             },
             _html: {
-                modalCover: '<div class="jmodal-cover" style="display: none;"></div>',
+                modalCover: '<div class="jmodal-cover jmodal-close"></div>',
                 modalContainer: '<div class="jmodal-container"></div>',
                 modalHead: '<div class="jmodal-head"></div>',
                 modalBody: '<div class="jmodal-body"></div>',
@@ -217,6 +248,10 @@ if (!$.fn.jmodal) {
             isElement: function(e) {
                 // Simple test for if var is element
                 return e instanceof Element || e instanceof HTMLDocument;
+            },
+            isOnlyInstance: function(M) {
+                // true if the given is the only instance available
+                return (M instanceof JModal && $.jmodal._instances.indexOf(M) > -1 && $.jmodal._instances.length === 1);
             },
         };
     

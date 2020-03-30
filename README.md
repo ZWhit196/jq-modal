@@ -63,7 +63,7 @@ An object of key/value pairings to assign as data attributes to the modal contai
 Defaults to `null`.  
 
 `altParent` : String, HTML, jQuery, function  
-Provide an alternative parent for the modal content to be placed in. By default, jmodal places the modals as a direct child of the body, so that when the modal is opened, the majority of the document is usually inaccessible via clicks until the modal closes. In some cases, you may still want to access areas of a page, so providing an `altParent` will allow greater control over what can be interacted with. This also affects the target of the `lockScroll` option.  
+Provide an alternative parent for the modal content to be placed in. By default, jmodal places the modals as a direct child of the body, so that when the modal is opened, the majority of the document is usually inaccessible via clicks until the modal closes. In some cases, you may still want to access areas of a page, so providing an `altParent` will allow greater control over what can be interacted with. This also affects the target of the `lockScroll` option. Strings should be viable jQuery selectors. Functions should return any of the other types.  
 Defaults to `null`.
 
 `eventTarget` : String, HTML, jQuery, function  
@@ -197,10 +197,12 @@ The format is as follows:
 As it stands right now, this plugin comes with a very bare-bones style sheet, which leaves a lot of the stylistic side to the user of this plugin, and doesn't overwhelm with a massive hyper structure.  
 All jmodal generated content will have a class with its name following the format of `jmodal-` and a relevant body part name.  
 
-- `jmodal-cover`  
-- `jmodal-container`  
-- `jmodal-head`  
-- `jmodal-body`  
-- `jmodal-foot`  
-- `jmodal-close`  
-- `jmodal-title`  
+- `jmodal-cover` (Element style)  
+- `jmodal-container` (Element style)  
+- `jmodal-head` (Element style)  
+- `jmodal-body` (Element style)  
+- `jmodal-foot` (Element style)  
+- `jmodal-close` (Element style)  
+- `jmodal-title` (Element style)  
+- `jmodal-open` (Display style)  
+- `jmodal-close` (Display style)  
