@@ -14,6 +14,8 @@ $('.selector').jmodal();
 
 When instantiated, the target element will be assigned a `data-jmodal` attribute with a value which corresponds to a jmodal id value.  
 This is used for accessing and interacting with the jmodal instance, and removing this attribute can cause issues with using the methods in code to access the modal.  
+The idea behind this is that one object may be able to trigger a jmodal modal instance, so once `.jmodal()` is called upon an element, no further modals can be created for that element without first `destroy`ing the first instance.  
+In some cases this may even help prevent a recursion of modals being created, but in most cases this ain't gonna happen.  
 
 ## Options
 
