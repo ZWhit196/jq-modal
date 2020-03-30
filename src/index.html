@@ -13,12 +13,11 @@
             $(function() {
                 $('#mclick').on("click", function() {
                     $(this).jmodal({
-                        header: function(title) {
-                            return $("<h1>" + title + "</h1>");
-                        },
+                        header: function(title) { return $("<h1>" + title + "</h1>"); },
                         headerTitle: "Sample Header",
                         content: 'These modal box things sure are useful!',
                         footer: function() { return "<p>Modal by jmodal</p>"; },
+                        restoreContent: function($content) { $('#restored').append($content) },
                     });
                 });
 
@@ -31,6 +30,11 @@
                     var M = $('#mclick').jmodal('instance');
                     console.log(M);
                 });
+
+                $('#iclick').on('click', function() {
+                    var M = $('#mclick').jmodal('instance');
+                    M.destroy();
+                });
             });
         </script>
 
@@ -41,35 +45,10 @@
         <button id="mclick">Click to create modal</button>
         <button id="oclick">Click to open the modal</button>
         <button id="iclick">Click to print instance</button>
+        <button id="dclick">Click destroy modal</button>
 
         <p>Create modal boxes with a simple system!</p>
 
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
-        <p>Need some text to lengthen the page.</p>
+        <div id="restored"></div>
     </body>
 </html>
