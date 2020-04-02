@@ -250,6 +250,9 @@ if (!$.fn.jmodal) {
             // methods
             create: function($target, options) {
                 // Create a new instance and assign to _instances
+                if ($target.length < 1)
+                    throw Error("Cannot initialise without a target element.");
+                    
                 if ($.jmodal.isInit($target)) 
                     throw Error("JModal already initialised for this targeted element.");
 
