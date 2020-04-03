@@ -97,6 +97,10 @@ if (!$.fn.jmodal) {
                 if (this._options.footer) this._createFoot();
 
                 this.$cover.append(this.$modal);
+
+                // Destroy func
+                if (Array.isArray(this._options.onInit)) $.each(this._options.onInit, function(i, fn) { fn(); });
+                else if ($.isFunction(this._options.onInit)) this._options.onInit();
             },
             // interaction
             destroy: function() {
