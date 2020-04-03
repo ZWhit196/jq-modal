@@ -85,7 +85,8 @@ if (!$.fn.jmodal) {
                 this.$modal.css({
                     width: this._options.width, 
                     height: this._options.height,
-                });
+                }).attr('id', this._options.id);
+                
                 if (this._options.customClass) this.$modal.addClass(this._options.customClass);
                 if (this._options.data) this.$modal.data(this._options.data);
 
@@ -241,6 +242,7 @@ if (!$.fn.jmodal) {
                 height: 'auto',
                 width: 'auto',
                 customClass: '',
+                id: '',
                 data: null,
                 altParent: null,
                 altTarget: null,

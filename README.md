@@ -60,6 +60,10 @@ Defaults to `auto`.
 Any string name (or space separated names) to add to the modal container to assist with styling.  
 Defaults to `''`.  
 
+`id` : String, function  
+Any string id to assign to the modal container to assist with styling or identification within the DOM. Functions should return the same.  
+Defaults to `''`.  
+
 `data` : Object, function  
 An object of key/value pairings to assign as data attributes to the modal container. This can be useful for storing any little bits of information you might need to reference to. Functions should return the same.  
 Defaults to `null`.  
